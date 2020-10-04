@@ -1,4 +1,4 @@
-FROM ich777/mono-baseimage
+FROM ich777/mono-baseimage:arm64
 
 LABEL maintainer="admin@minenet.at"
 
