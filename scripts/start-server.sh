@@ -11,7 +11,7 @@ fi
 if [ ! -f ${DATA_DIR}/logs/radarr.txt ]; then
     CUR_V=""
 else
-    CUR_V="$(cat ${DATA_DIR}/logs/radarr.txt | grep Version | tail -1 | rev | cut -d ' ' -f1 | rev)"
+    CUR_V="$(cat ${DATA_DIR}/logs/radarr.txt | grep " - Version" | tail -1 | rev | cut -d ' ' -f1 | rev)"
 fi
 
 if [ -z $LAT_V ]; then
