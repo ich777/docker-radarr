@@ -7,7 +7,7 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV DATA_DIR="/radarr"
-ENV SONARR_REL="latest"
+ENV RADARR_REL="latest"
 ENV START_PARAMS=""
 ENV MONO_START_PARAMS="--debug"
 ENV UMASK=0000
