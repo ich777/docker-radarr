@@ -15,6 +15,7 @@ MIGRATION: If you are migrating from another Container please be sure to deltete
 | --- | --- | --- |
 | DATA_DIR | Folder for configfiles and the application | /radarr |
 | RADARR_REL | Select if you want to download a stable or prerelease | nightly |
+| MONO_START_PARAMS | Only change if you know what you are doing! | --debug |
 | UID | User Identifier | 99 |
 | GID | Group Identifier | 100 |
 | UMASK | Umask value for new created files | 0000 |
@@ -25,6 +26,7 @@ MIGRATION: If you are migrating from another Container please be sure to deltete
 docker run --name Radarr -d \
 	-p 7878:7878 \
 	--env 'RADARR_REL=nightly' \
+	--env 'MONO_START_PARAMS=--debug' \
 	--env 'UID=99' \
 	--env 'GID=100' \
 	--env 'UMASK=0000' \
