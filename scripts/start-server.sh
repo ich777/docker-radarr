@@ -1,4 +1,5 @@
 #!/bin/bash
+ARCH="x64"
 if [ "$RADARR_REL" == "latest" ]; then
     LAT_V="$(wget -qO- https://github.com/ich777/versions/raw/master/Radarr | grep LATEST | cut -d '=' -f2)"
 elif [ "$RADARR_REL" == "nightly" ]; then
@@ -28,7 +29,7 @@ if [ "$RADARR_REL" == "nightly" ]; then
     if [ -z "$CUR_V" ]; then
         echo "---Radarr not found, downloading and installing v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=x64" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
@@ -40,7 +41,7 @@ if [ "$RADARR_REL" == "nightly" ]; then
     elif [ "$CUR_V" != "$LAT_V" ]; then
         echo "---Version missmatch, installed v$CUR_V, downloading and installing latest v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=x64" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
