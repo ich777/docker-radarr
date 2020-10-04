@@ -13,7 +13,7 @@ MIGRATION: If you are migrating from another Container please be sure to deltete
 ## Env params
 | Name | Value | Example |
 | --- | --- | --- |
-| DATA_DIR | Folder for gamefile | /radarr |
+| DATA_DIR | Folder for configfiles and the application | /radarr |
 | RADARR_REL | Select if you want to download a stable or prerelease | nightly |
 | UID | User Identifier | 99 |
 | GID | Group Identifier | 100 |
