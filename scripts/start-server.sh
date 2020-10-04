@@ -1,5 +1,5 @@
 #!/bin/bash
-ARCH="x64"
+ARCH="arm64"
 if [ "$RADARR_REL" == "latest" ]; then
     LAT_V="$(wget -qO- https://github.com/ich777/versions/raw/master/Radarr | grep LATEST | cut -d '=' -f2)"
 elif [ "$RADARR_REL" == "nightly" ]; then
