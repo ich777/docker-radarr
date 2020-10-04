@@ -1,13 +1,13 @@
 # Radarr in Docker optimized for Unraid
 Radarr A fork of Sonarr to work with movies à la Couchpotato.
 
-UPDATE: The container will check on every start/restart if there is a newer version available (you can also choose between stabel and nightly version - keep in mind that switching from a stable to a nightly version and vice versa will/can break the container).
+**Update:** The container will check on every start/restart if there is a newer version available (you can also choose between stabel and nightly version - keep in mind that switching from a stable to a nightly version and vice versa will/can break the container).
 
-MANUAL VERSION: You can also set a version manually by typing in the version number that you want to use for example: '0.2.0.1480' (without quotes) - you can also change it to 'latest' or 'nightly' like described above (works only for stable builds - don't forget to disable updates in the WebGUI if you are using a specific version).
+**Manual Version:** You can also set a version manually by typing in the version number that you want to use for example: '0.2.0.1480' (without quotes) - you can also change it to 'latest' or 'nightly' like described above (works only for stable builds - don't forget to disable updates in the WebGUI if you are using a specific version).
 
-ATTENTION: Don't change the port in the Radarr config itself.
+**ATTENTION:** Don't change the port in the Radarr config itself.
 
-MIGRATION: If you are migrating from another Container please be sure to deltete the files/folders 'logs', 'xdg' and 'config.xml', don't forget to change the root folder for your movies to '/mnt/movies' and select 'No, I'll Move the Files Myself'!
+**Migration:** If you are migrating from another Container please be sure to deltete the files/folders 'logs', 'xdg' and 'config.xml', don't forget to change the root folder for your movies to '/mnt/movies' and select 'No, I'll Move the Files Myself'!
 
 
 ## Env params
