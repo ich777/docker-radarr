@@ -5,6 +5,9 @@ LABEL maintainer="admin@minenet.at"
 RUN apt-get update && \
 	apt-get -y install --no-install-recommends mediainfo && \
 	rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+	apt-get -y install --no-install-recommends libicu63 && \
+	rm -rf /var/lib/apt/lists/*
 
 ENV DATA_DIR="/radarr"
 ENV RADARR_REL="latest"
