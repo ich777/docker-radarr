@@ -36,8 +36,13 @@ if [ "$RADARR_REL" == "nightly" ]; then
         if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
-            echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
-            sleep infinity
+            rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+            if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/ich777/Radarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
+                echo "---Successfully downloaded Radarr v$LAT_V---"
+            else
+                echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
+                sleep infinity
+            fi
         fi
         mkdir ${DATA_DIR}/Radarr
         tar -C ${DATA_DIR}/Radarr --strip-components=1 -xf ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
@@ -48,8 +53,13 @@ if [ "$RADARR_REL" == "nightly" ]; then
         if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
-            echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
-            sleep infinity
+            rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+            if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/ich777/Radarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
+                echo "---Successfully downloaded Radarr v$LAT_V---"
+            else
+                echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
+                sleep infinity
+            fi
         fi
         rm -R ${DATA_DIR}/Radarr
         mkdir ${DATA_DIR}/Radarr
