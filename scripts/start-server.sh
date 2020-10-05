@@ -24,6 +24,10 @@ if [ -z $LAT_V ]; then
     fi
 fi
 
+if [ -f ${DATA_DIR}/Radarr-v$LAT_V.tar.gz ]; then
+    rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+fi
+
 echo "---Version Check---"
 if [ "$RADARR_REL" == "nightly" ]; then
     if [ -z "$CUR_V" ]; then
