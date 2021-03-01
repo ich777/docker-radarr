@@ -1,4 +1,4 @@
-FROM ich777/mono-baseimage
+FROM ich777/debian-baseimage
 
 LABEL maintainer="admin@minenet.at"
 
