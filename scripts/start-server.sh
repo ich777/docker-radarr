@@ -117,5 +117,5 @@ cd ${DATA_DIR}
 if [ "$RADARR_REL" == "nightly" ]; then
     ${DATA_DIR}/Radarr/Radarr -nobrowser -data=${DATA_DIR} ${START_PARAMS}
 else
-    /usr/bin/mono ${MONO_START_PARAMS} ${DATA_DIR}/Radarr/Radarr.exe -nobrowser -data=${DATA_DIR} ${START_PARAMS}
+    ${DATA_DIR}/Radarr/Radarr -nobrowser -data=${DATA_DIR} ${START_PARAMS}
 fi
