@@ -16,8 +16,7 @@ Radarr A fork of Sonarr to work with movies à la Couchpotato.
 | Name | Value | Example |
 | --- | --- | --- |
 | DATA_DIR | Folder for configfiles and the application | /radarr |
-| RADARR_REL | Select if you want to download a stable or prerelease | nightly |
-| MONO_START_PARAMS | Only change if you know what you are doing! | --debug |
+| RADARR_REL | Select if you want to download a stable or prerelease | latest |
 | UID | User Identifier | 99 |
 | GID | Group Identifier | 100 |
 | UMASK | Umask value for new created files | 0000 |
