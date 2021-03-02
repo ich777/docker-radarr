@@ -9,6 +9,8 @@ Radarr A fork of Sonarr to work with movies à la Couchpotato.
 
 **Migration:** If you are migrating from another Container please be sure to deltete the files/folders 'logs', 'xdg' and 'config.xml', don't forget to change the root folder for your movies to '/mnt/movies' and select 'No, I'll Move the Files Myself'!
 
+#### **WARNING:** The main configuration of the paths has a performance and disk usage impact: **slow, I/O intensive moves and wasted disk space**. For a detailed guide to change that see https://trash-guides.info/hardlinks/#unraid .
+
 
 ## Env params
 | Name | Value | Example |
@@ -25,8 +27,7 @@ Radarr A fork of Sonarr to work with movies à la Couchpotato.
 ```
 docker run --name Radarr -d \
 	-p 7878:7878 \
-	--env 'RADARR_REL=nightly' \
-	--env 'MONO_START_PARAMS=--debug' \
+	--env 'RADARR_REL=latest' \
 	--env 'UID=99' \
 	--env 'GID=100' \
 	--env 'UMASK=0000' \
