@@ -106,9 +106,9 @@ if [ ! -f ${DATA_DIR}/config.xml ]; then
 </Config>" > ${DATA_DIR}/config.xml
 else
     if [ "$RADARR_REL" == "nightly" ]; then
-        sed -i '  <Branch>/c\  <Branch>nightly</Branch>' ${DATA_DIR}/config.xml
+        sed -i '/  <Branch>/c\  <Branch>nightly</Branch>' ${DATA_DIR}/config.xml
     else
-        sed -i '  <Branch>/c\  <Branch>master</Branch>' ${DATA_DIR}/config.xml
+        sed -i '/  <Branch>/c\  <Branch>master</Branch>' ${DATA_DIR}/config.xml
     fi
 fi
 if [ -f ${DATA_DIR}/nzbdrone.pid ]; then
