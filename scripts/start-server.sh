@@ -72,7 +72,7 @@ else
     if [ -z "$CUR_V" ]; then
         echo "---Radarr not found, downloading and installing v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/Radarr/Radarr/releases/download/v${LAT_V}/Radarr.develop.${LAT_V}.linux.tar.gz" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/Radarr/Radarr/releases/download/v${LAT_V}/Radarr.master.${LAT_V}.linux-core-x64.tar.gz" ; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
@@ -84,7 +84,7 @@ else
     elif [ "$CUR_V" != "$LAT_V" ]; then
         echo "---Version missmatch, installed v$CUR_V, downloading and installing latest v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/Radarr/Radarr/releases/download/v${LAT_V}/Radarr.develop.${LAT_V}.linux.tar.gz" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/Radarr/Radarr/releases/download/v${LAT_V}/Radarr.master.${LAT_V}.linux-core-x64.tar.gz" ; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
@@ -104,6 +104,12 @@ if [ ! -f ${DATA_DIR}/config.xml ]; then
     echo "<Config>
   <LaunchBrowser>False</LaunchBrowser>
 </Config>" > ${DATA_DIR}/config.xml
+else
+    if [ "$RADARR_REL" == "nightly" ]; then
+        sed -i '  <Branch>/c\  <Branch>nightly</Branch>' ${DATA_DIR}/config.xml
+    else
+        sed -i '  <Branch>/c\  <Branch>master</Branch>' ${DATA_DIR}/config.xml
+    fi
 fi
 if [ -f ${DATA_DIR}/nzbdrone.pid ]; then
     rm ${DATA_DIR}/nzbdrone.pid
@@ -114,8 +120,4 @@ chmod -R ${DATA_PERM} ${DATA_DIR}
 
 echo "---Starting Radarr---"
 cd ${DATA_DIR}
-if [ "$RADARR_REL" == "nightly" ]; then
-    ${DATA_DIR}/Radarr/Radarr -nobrowser -data=${DATA_DIR} ${START_PARAMS}
-else
-    /usr/bin/mono ${MONO_START_PARAMS} ${DATA_DIR}/Radarr/Radarr.exe -nobrowser -data=${DATA_DIR} ${START_PARAMS}
-fi
+${DATA_DIR}/Radarr/Radarr -nobrowser -data=${DATA_DIR} ${START_PARAMS}
