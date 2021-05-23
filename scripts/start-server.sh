@@ -112,6 +112,16 @@ elif [ -f ${DATA_DIR}/radarr.pid ]; then
 fi
 chmod -R ${DATA_PERM} ${DATA_DIR}
 
+echo "+-------------------------------------------------------------"
+echo "|"
+echo "| This container for ARM is deprecated and is no"
+echo "| longer actively maintained or further developed!"
+echo "|"
+echo "|  Container will start in 60 seconds!"
+echo "|"
+echo "+-------------------------------------------------------------"
+sleep 60
+
 echo "---Starting Radarr---"
 cd ${DATA_DIR}
 if [ "$RADARR_REL" == "nightly" ]; then
