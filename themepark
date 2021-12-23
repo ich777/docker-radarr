@@ -1,35 +1,67 @@
 #!/bin/bash
-#Set variables
 
-#I heavily recommend to set the variables in the template
+echo '---------------------------'
+echo '|  Radarr theme.park Mod  |'
+echo '---------------------------'
 
-#APP_NAME=radarr
-#DOCKER_MODS=ghcr.io/gilbn/theme.park:${APP_NAME}
-#TP_DOMAIN=theme-park.dev
-#TP_THEME=organizr-dark
-#TP_ADDON=radarr-4k-logo
-APP_FILEPATH="${DATA_DIR}/Radarr/UI/index.html"
+# Display variables for troubleshooting
+echo -e "Variables set:\\n\
+'TP_DOMAIN'=${TP_DOMAIN}\\n\
+'TP_COMMUNITY_THEME'=${TP_COMMUNITY_THEME}\\n\
+'TP_ADDON'=${TP_ADDON}\\n\
+'TP_THEME'=${TP_THEME}\\n"
 
-if ! grep -q "#theme.park integration" /opt/scripts/start-server.sh; then
-    sed -i '/^echo "---Starting .*/i\#theme.park integration \
-if ! grep -q \"'${TP_DOMAIN}'\" '$APP_FILEPATH'; then \
-    if [ ! -f \"'${APP_FILEPATH}'.old\" ]; then \
-        cp '${APP_FILEPATH}' '${APP_FILEPATH}'.old \
-    fi \
-    sed -i "s/<\\\\/head>/<link rel=stylesheet href=https:\\\/\\\/'${TP_DOMAIN}'\\\/CSS\\\/themes\\\/radarr\\\/'${TP_THEME}'.css><\\\\/head>/g" '${APP_FILEPATH}' \
-fi \
-' /opt/scripts/start-server.sh
-elif ! grep -q "${TP_THEME}" /opt/scripts/start-server.sh; then
-        cp ${APP_FILEPATH}.old ${APP_FILEPATH}
-        rm -rf ${APP_FILEPATH}.old
-        sed -i '/#theme.park integration/,+4d' /opt/scripts/start-server.sh
-        sed -i '/^echo "---Starting .*/i\#theme.park integration \
-if ! grep -q \"'${TP_DOMAIN}'\" '$APP_FILEPATH'; then \
-    if [ ! -f \"'${APP_FILEPATH}'.old\" ]; then \
-        cp '${APP_FILEPATH}' '${APP_FILEPATH}'.old \
-    fi \
-    sed -i "s/<\\\\/head>/<link rel=stylesheet href=https:\\\/\\\/'${TP_DOMAIN}'\\\/CSS\\\/themes\\\/radarr\\\/'${TP_THEME}'.css><\\\\/head>/g" '${APP_FILEPATH}' \
-fi \
-' /opt/scripts/start-server.sh
+APP_FILEPATH='/app/radarr/bin/UI/index.html'
+LOGIN_FILEPATH='/app/radarr/bin/UI/login.html'
+if [ "${TP_HOTIO}" = true ]; then
+    echo 'Changing to Hotio file path!'
+    APP_FILEPATH='/app/bin/UI/index.html'
+    LOGIN_FILEPATH='/app/bin/UI/login.html'
+elif [ "${TP_ICH777}" = true ]; then
+    echo 'Changing to Hotio file path!'
+    APP_FILEPATH="${DATA_DIR}/Radarr/UI/index.html"
+    LOGIN_FILEPATH="${DATA_DIR}/Radarr/UI/login.html"
 fi
-exit
+
+# Set default
+if [[ -z ${TP_DOMAIN} ]]; then
+    echo 'No domain set, defaulting to theme-park.dev'
+    TP_DOMAIN='theme-park.dev'
+fi
+
+THEME_TYPE='theme-options'
+if [ "${TP_COMMUNITY_THEME}" = true ]; then
+    THEME_TYPE='community-theme-options'
+fi
+
+case ${TP_DOMAIN} in
+  *"github.io"*)
+  echo "Switching to github.io URL style"
+    TP_DOMAIN="${TP_DOMAIN}\/theme.park"
+    ;;
+esac
+
+if [[ -z ${TP_THEME} ]]; then
+    echo 'No theme set, defaulting to organizr'
+    TP_THEME='organizr'
+fi
+
+# Adding stylesheets
+if ! grep -q "${TP_DOMAIN}/css/base" "${APP_FILEPATH}"; then
+    echo '---------------------------'
+    echo '|  Adding the stylesheet  |'
+    echo '---------------------------'
+    sed -i "s/<\/head>/<link rel='stylesheet' href='https:\/\/${TP_DOMAIN}\/css\/base\/radarr\/radarr-base.css'><\/head> /g" "${APP_FILEPATH}"
+    sed -i "s/<\/head>/<link rel='stylesheet' href='https:\/\/${TP_DOMAIN}\/css\/${THEME_TYPE}\/${TP_THEME}.css'><\/head> /g" "${APP_FILEPATH}"
+    sed -i "s/<\/head>/<link rel='stylesheet' href='https:\/\/${TP_DOMAIN}\/css\/base\/radarr\/radarr-base.css'><\/head> /g" "${LOGIN_FILEPATH}"
+    sed -i "s/<\/head>/<link rel='stylesheet' href='https:\/\/${TP_DOMAIN}\/css\/${THEME_TYPE}\/${TP_THEME}.css'><\/head> /g" "${LOGIN_FILEPATH}"
+    printf 'Stylesheet set to %s\n' "${TP_THEME}"
+    if [[ -n ${TP_ADDON} ]]; then
+        for addon in $(echo "$TP_ADDON" | tr "|" " "); do
+        sed -i "s/<\/head>/<link rel='stylesheet' href='https:\/\/${TP_DOMAIN}\/css\/addons\/radarr\/${addon}\/${addon}.css'><\/head> /g" "${APP_FILEPATH}"
+        sed -i "s/<\/head>/<link rel='stylesheet' href='https:\/\/${TP_DOMAIN}\/css\/addons\/radarr\/${addon}\/${addon}.css'><\/head> /g" "${LOGIN_FILEPATH}"
+        printf 'Added custom addon: %s\n\n' "${addon}"
+        done
+    fi
+fi
+
