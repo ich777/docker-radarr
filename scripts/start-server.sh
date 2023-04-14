@@ -21,6 +21,7 @@ if [ -z $LAT_V ]; then
         sleep infinity
     else
         echo "---Can't get latest version of Radarr, falling back to v$CUR_V---"
+        LAT_V="$CUR_V"
     fi
 fi
 
@@ -37,12 +38,8 @@ if [ "$RADARR_REL" == "nightly" ]; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
             rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
-            if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/ich777/Radarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
-                echo "---Successfully downloaded Radarr v$LAT_V---"
-            else
-                echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
-                sleep infinity
-            fi
+            echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
+            sleep infinity
         fi
         mkdir ${DATA_DIR}/Radarr
         tar -C ${DATA_DIR}/Radarr --strip-components=1 -xf ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
@@ -54,17 +51,15 @@ if [ "$RADARR_REL" == "nightly" ]; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
             rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
-            if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/ich777/Radarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
-                echo "---Successfully downloaded Radarr v$LAT_V---"
-            else
-                echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
-                sleep infinity
-            fi
+            echo "---Something went wrong, can't download Radarr v$LAT_V, falling back to v$CUR_V!---"
+            EXIT_STATUS=1
         fi
-        rm -R ${DATA_DIR}/Radarr
-        mkdir ${DATA_DIR}/Radarr
-        tar -C ${DATA_DIR}/Radarr --strip-components=1 -xf ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
-        rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+        if [ "${EXIT_STATUS}" != "1" ]; then
+            rm -R ${DATA_DIR}/Radarr
+            mkdir ${DATA_DIR}/Radarr
+            tar -C ${DATA_DIR}/Radarr --strip-components=1 -xf ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+            rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+        fi
     elif [ "$CUR_V" == "$LAT_V" ]; then
         echo "---Radarr v$CUR_V up-to-date---"
     fi
@@ -87,13 +82,16 @@ else
         if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Radarr-v$LAT_V.tar.gz "https://github.com/Radarr/Radarr/releases/download/v${LAT_V}/Radarr.master.${LAT_V}.linux-core-x64.tar.gz" ; then
             echo "---Successfully downloaded Radarr v$LAT_V---"
         else
-            echo "---Something went wrong, can't download Radarr v$LAT_V, putting container into sleep mode!---"
-            sleep infinity
+            rm -rf ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+            echo "---Something went wrong, can't download Radarr v$LAT_V, falling back to v$CUR_V!---"
+            EXIT_STATUS=1
         fi
-        rm -R ${DATA_DIR}/Radarr
-        mkdir ${DATA_DIR}/Radarr
-        tar -C ${DATA_DIR}/Radarr --strip-components=1 -xf ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
-        rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+        if [ "${EXIT_STATUS}" != "1" ]; then
+            rm -R ${DATA_DIR}/Radarr
+            mkdir ${DATA_DIR}/Radarr
+            tar -C ${DATA_DIR}/Radarr --strip-components=1 -xf ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+            rm ${DATA_DIR}/Radarr-v$LAT_V.tar.gz
+        fi
     elif [ "$CUR_V" == "$LAT_V" ]; then
         echo "---Radarr v$CUR_V up-to-date---"
     fi
