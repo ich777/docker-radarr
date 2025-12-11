@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.authors="admin@minenet.at"
 LABEL org.opencontainers.image.source="https://github.com/ich777/docker-radarr"
 
 RUN apt-get update && \
-	apt-get -y install --no-install-recommends mediainfo libicu72 netcat-traditional && \
+	apt-get -y install --no-install-recommends mediainfo libicu76 netcat-traditional && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV DATA_DIR="/radarr"
